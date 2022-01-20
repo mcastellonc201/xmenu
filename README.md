@@ -1,4 +1,4 @@
-# xmenu
+# XINPUT MENU
 INSTRUCTIONS
 ============
 
