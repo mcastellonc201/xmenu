@@ -1,4 +1,4 @@
-#define NOPTIONS 7
+#define NOPTIONS 8
 #include <iostream>
 #include <windows.h>
 #include <xinput.h>
@@ -18,6 +18,7 @@ int main()
 		"  GAME03.CMD  ",
 		"  GAME04.CMD  ",
 		"  GAME05.CMD  ",
+		"  YOUTUBE     ",
 		"  REBOOT      ",
 		"  POWEROFF    "
 	};
@@ -47,7 +48,7 @@ int main()
 		while (true)
 		{
 			DWORD Result = XInputGetKeystroke(0, 0, &stroke);
-			if ((stroke.VirtualKey == VK_PAD_DPAD_UP) && (stroke.Flags & XINPUT_KEYSTROKE_KEYDOWN))
+			if ((GetAsyncKeyState(VK_UP) & 0x01) || ((stroke.VirtualKey == VK_PAD_DPAD_UP) && (stroke.Flags & XINPUT_KEYSTROKE_KEYDOWN)) )
 			{
 				index -= 1;
 				if (index == -1)
@@ -56,7 +57,7 @@ int main()
 				}
 				break;
 			}
-			else if ((stroke.VirtualKey == VK_PAD_DPAD_DOWN) && (stroke.Flags & XINPUT_KEYSTROKE_KEYDOWN))
+			else if ((GetAsyncKeyState(VK_DOWN) & 0x01) || ((stroke.VirtualKey == VK_PAD_DPAD_DOWN) && (stroke.Flags & XINPUT_KEYSTROKE_KEYDOWN)) )
 			{
 				index += 1;
 				if (index == NOPTIONS)
@@ -65,7 +66,7 @@ int main()
 				}
 				break;
 			}
-			else if ((stroke.VirtualKey == VK_PAD_A) && (stroke.Flags & XINPUT_KEYSTROKE_KEYDOWN))
+			else if ((GetAsyncKeyState(VK_RETURN) & 0x01) || ((stroke.VirtualKey == VK_PAD_A) && (stroke.Flags & XINPUT_KEYSTROKE_KEYDOWN)) )
 			{
 				switch (index)
 				{
@@ -101,10 +102,17 @@ int main()
 				break;
 				case 5:
 				{
-					system("shutdown -r -t 0");
+					system("cls");
+					std::cout << "Running... YOUTUBE\n";
+					system("start /wait msedge youtube.com");
 				}
 				break;
 				case 6:
+				{
+					system("shutdown -r -t 0");
+				}
+				break;
+				case 7:
 				{
 					system("shutdown -s -t 0");
 				}
